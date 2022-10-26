@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const RightOrWrong = ({getNewWord, setScore}) => {
   const handleRight = () => {
     setScore(prevScore => prevScore + 1);
-    getNewWord();
+    getNewWord(true);
   };
 
   const handleWrong = () => {

@@ -14,19 +14,19 @@ import RightOrWrong from "./components/RightOrWrong";
 library.add(faUserSecret, faEarListen, faBook, faThumbsUp, faThumbsDown, faTrophy);
 
 function App() {
+  const [wordsList, setWordsList] = useState([]);
   const [currentWord, setCurrentWord] = useState("");
-  const [currentWordIdx, setCurrentWordIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [meaning, setMeaning] = useState("");
   const [showMeaning, setShowMeaning] = useState(false);
   const [voice, setVoice] = useState(null);
   const voices = window.speechSynthesis.getVoices();
-
+  
   useEffect(() => {
     const idx = Math.floor(Math.random() * words.length);
     const randomWord = words[idx];
+    setWordsList(words);
     setCurrentWord(randomWord);
-    setCurrentWordIdx(idx);
   }, []);
 
   useEffect(() => {
@@ -56,11 +56,12 @@ function App() {
     window.speechSynthesis.speak(textToSpeech(currentWord, voice));
   };
 
-  const getNewWord = () => {
-    const idx = Math.floor(Math.random() * words.length);
-    const randomWord = words[idx];
+  const getNewWord = success => {
+    const filteredList = success ? wordsList.filter(word => word !== currentWord) : wordsList; 
+    const idx = Math.floor(Math.random() * filteredList.length);
+    const randomWord = filteredList[idx];
     setCurrentWord(randomWord);
-    setCurrentWordIdx(idx);
+    setWordsList(filteredList);
   };
 
   return (
